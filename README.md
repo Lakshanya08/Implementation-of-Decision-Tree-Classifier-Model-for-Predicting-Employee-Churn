@@ -15,15 +15,51 @@ To write a program to implement the Decision Tree Classifier Model for Predictin
 
 ## Program:
 ```
-/*
-Program to implement the Decision Tree Classifier Model for Predicting Employee Churn.
-Developed by: 
-RegisterNumber:  
-*/
+import pandas as pd
+data = pd.read_csv("/content/Employee.csv")
+data.head()
+data.info()
+print("Null values:\n", data.isnull().sum())
+print("Class distribution:\n", data["left"].value_counts())
 ```
+```
+from sklearn.preprocessing import LabelEncoder
+le = LabelEncoder()
+data["salary"] = le.fit_transform(data["salary"])
+data.head()
+```
+```
+x = data[["satisfaction_level", "last_evaluation", "number_project", "average_montly_hours",
+          "time_spend_company", "Work_accident", "promotion_last_5years", "salary"]]
+print(x.head())
+y = data["left"]
+```
+```
+from sklearn.model_selection import train_test_split
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=100)
+```
+```
+from sklearn.tree import DecisionTreeClassifier
+dt = DecisionTreeClassifier(criterion="entropy")
+dt.fit(x_train, y_train)
+```
+```
+from sklearn import metrics
+y_pred = dt.predict(x_test)
+accuracy = metrics.accuracy_score(y_test, y_pred)
+print("Accuracy:", accuracy)
+```
+```
+sample_prediction = dt.predict([[0.5, 0.8, 9, 260, 6, 0, 1, 2]])
+print("Sample Prediction:", sample_prediction)
+```
+Developed by: Lakshanya.N
+RegisterNumber:212224230136  
 
 ## Output:
-![decision tree classifier model](sam.png)
+
+![image](https://github.com/user-attachments/assets/fa7f6d3c-1c3e-49da-bcdb-69380d49b98e)
+![image](https://github.com/user-attachments/assets/4a4a9842-b1ee-43fb-ba39-5a2ac5031d2f)
 
 
 ## Result:
